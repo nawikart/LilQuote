@@ -1,0 +1,34 @@
+{% extends 'base.html' %} 
+
+{% block body %}  
+
+    {% include 'errors.html' %}
+
+    {% if session.username %}
+        <h1 class="mb-3">Say something...</h1>
+        <form action="{{ url_for('create__quote') }}" method="POST">
+            <textarea name="html_content" class="col-sm-8 col-xs-12" cols="60" rows="4" style="border-radius: 5px;"></textarea>
+            <p><button type="submit" class="btn btn-success">Say It!</button></p> 
+        </form>
+    {% endif %}
+    <p>&nbsp;</p>
+
+    {% for quote in all_quotes %}
+    <div class="card col-sm-8 xs-12 py-3 px-4 mb-4" style="box-shadow: 3px 3px 3px #ccc; position: relative;">
+        {% if session['user_id'] == quote.user_id %}
+            <a href="{{ url_for('delete__quote', quote_id=quote.id) }}" type="button" class="btn btn-danger btn-sm" style="position: absolute; top: 0; right:0">delete</a>
+        {% endif %}
+        <blockquote class="blockquote mb-0">
+            <p style="border-left: 5px solid #ccc; padding-left: 10px;">{{ quote.content }}</p>
+            <footer class="blockquote-footer">
+                <small class="text-primary">
+                by <cite title="Source Title"><a href="{{ url_for('user_quotes', user_id=quote.user_id) }}">{{ quote.user.fullname }} - {{ quote.user.email }}</a></cite>
+                </small>
+                <small style="float: right; color: #000;">
+                    {{ quote.created_at }}
+                </small>                
+            </footer>
+        </blockquote>
+    </div>
+    {% endfor %}
+{% endblock %}
