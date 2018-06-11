@@ -92,7 +92,7 @@ def register():
         except:
             flash('email already registered.')
 
-    return redirect(url_for('authenticate'))
+    return redirect(url_for('register_form'))
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -109,7 +109,7 @@ def login():
     except:
         flash('invalid login')
 
-    return redirect(url_for('authenticate'))
+    return redirect(url_for('login_form'))
 
 @app.route('/logout')
 def logout():
